@@ -14,18 +14,61 @@ namespace Troelsen
             int result = Convert.ToInt32(Console.ReadLine());
             switch (result)
             {
-                case 1: InternalProgram();break;
+                case 1: InternalProgram(); break;
                 case 2: CommandLine(args); break;
                 case 3: ShowEnvironmentDetails(); break;
-                case 4:GetUserData(); break;
+                case 4: GetUserData(); break;
                 case 5: FormatNumericalData(); break;
-
+                case 6: ObjectFunctionality(); break;
+                case 7: DataTypeFunctionality();break;
+                case 8:CharFunctionality();break;
             }
-            
+
             Console.ReadLine();
 
             return 0;
         }
+        static void CharFunctionality()
+        {
+            Console.WriteLine("=> char type Functionality:");
+            char myChar = 'a';
+            Console.WriteLine("char.IsDigit ( 'a') : {0}", char.IsDigit(myChar));
+            Console.WriteLine("char.IsLetter ( 'a' ) : {0}", char.IsLetter(myChar));
+            Console.WriteLine("char.IsWhiteSpace('Hello There', 5): {0}",char.IsWhiteSpace("Hello There", 5));
+            Console.WriteLine("char.IsWhiteSpace('Hello There', 6): {0}",char.IsWhiteSpace("Hello There", 6));
+            Console.WriteLine("char.IsPunctuation(’?'): {0}", char.IsPunctuation('?'));
+            Console.WriteLine(); }
+            static void DataTypeFunctionality()
+        {
+            Console.WriteLine("=> Data type Functionality:");
+            Console.WriteLine("Max of int: {0}", int.MaxValue);
+            Console.WriteLine("Min of int: {0}", int.MinValue);
+           
+            Console.WriteLine("Max of double: {0}", double.MaxValue);
+            Console.WriteLine("Min of double: {0}", double.MinValue);
+            Console.WriteLine("double.Epsilon: {0}", double.Epsilon);
+            Console.WriteLine("double.PositiveInfinity: {0}",  double.PositiveInfinity);
+            Console.WriteLine("double.Negativelnfinity: {0}", double.NegativeInfinity);
+            Console.WriteLine();
+        }
+    
+        static void DefaultDeclarations()
+        {
+            Console.WriteLine("=> Default Declarations:");
+            int mylnt = default;
+            bool b = new bool(); // Устанавливается в false.
+            int l = new int(); // Устанавливается в 0.
+            double d = new double(); // Устанавливается в 0.
+            DateTime dt = new DateTime(); // Устанавливается в 1/1/0001 12:00:00 AM
+        }        static void ObjectFunctionality() { 
+            Console.WriteLine("=> System.Object Functionality:");
+            // Ключевое слово int языка C# - это в действительности сокращение для
+            // типа System.Int32, который наследует от System.Object следующие члены:
+            Console.WriteLine("12.GetHashCode() = {0}", 12.GetHashCode());
+            Console.WriteLine("12.Equals (23) = {0}", 12.Equals(23));
+            Console.WriteLine("12.ToString () = {0}", 12.ToString());
+            Console.WriteLine("12.GetType () = {0}", 12L.GetType());
+            Console.WriteLine();}
         static void CommandLine(string []args)
         {
             // Настройка консольного пользовательского интерфейса.
