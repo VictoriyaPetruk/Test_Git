@@ -22,11 +22,45 @@ namespace Troelsen
                 case 6: ObjectFunctionality(); break;
                 case 7: DataTypeFunctionality();break;
                 case 8:CharFunctionality();break;
+                case 9: ParseFromStrings();break;
+                case 10: ParseFromStringsWithTryParse();break;
             }
 
             Console.ReadLine();
 
             return 0;
+        }
+        static void ParseFromStringsWithTryParse()
+        {
+            Console.WriteLine("=> Data type parsing with TryParse:");
+            if (bool.TryParse("True", out bool b)) ;
+            {
+                Console.WriteLine("Value of b: {0}", b); // Вывод значения b
+            }
+            string value = "Hello";
+            if (double.TryParse(value, out double d))
+            {
+                Console.WriteLine("Value of d: {0}", d); // Вывод значения d
+            }
+            else
+            {
+                // Преобразование потерпело неудачу
+                Console.WriteLine("Failed to convert the input ({0}) to a double", value);
+            }
+            Console.WriteLine();
+        }
+        static void ParseFromStrings()
+        {
+            Console.WriteLine(" Data type parsing: ");
+            bool b = bool.Parse("True");
+            Console.WriteLine("Value of b: {0} ", b); // Вывод значения b
+            double d = double.Parse(" 99. 884 ") ;
+            Console.WriteLine("Value of d: {0} ", d) ; // Вывод значения d
+            int i = int.Parse("8") ;
+            Console.WriteLine("Value of l: {0}", i); // Вывод значения i
+            char c = Char.Parse("w");
+            Console.WriteLine("Value of c: { о } ", c); // Вывод значения с
+            Console.WriteLine();
         }
         static void CharFunctionality()
         {
@@ -60,7 +94,8 @@ namespace Troelsen
             int l = new int(); // Устанавливается в 0.
             double d = new double(); // Устанавливается в 0.
             DateTime dt = new DateTime(); // Устанавливается в 1/1/0001 12:00:00 AM
-        }        static void ObjectFunctionality() { 
+        }
+        static void ObjectFunctionality() { 
             Console.WriteLine("=> System.Object Functionality:");
             // Ключевое слово int языка C# - это в действительности сокращение для
             // типа System.Int32, который наследует от System.Object следующие члены:
