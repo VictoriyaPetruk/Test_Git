@@ -52,12 +52,7 @@ namespace LINQ
             string s = "Jason Puncheon, 26/06/1986; Jos Hooiveld, 22/04/1983; Kelvin Davis, 29/09/1976; Luke Shaw, 12/07/1995; Gaston Ramirez, 02/12/1990; Adam Lallana, 10/05/1988";
            //разделить по ; на отдельные объекты,разделить по запятой 
            string[] mas= s.Split(';').ToArray();
-            List<Person> p = new List<Person>();
-            foreach (var k in mas)
-            {
-                Person a = new Person(k);
-                p.Add(a);
-            }
+            List<Person> p = mas.Select(m => new Person(m)).ToList();
             DateTime date = DateTime.Today;
             var stroka1 = p.OrderBy(x => x.Date).Select(x => x);
             foreach(var k in stroka1)
@@ -81,6 +76,11 @@ namespace LINQ
         {
             string s = "4:12,2:43,3:51,4:29,3:24,3:14,4:46,3:25,4:52,3:27";
             string[] mas = s.Split(',').ToArray();
+            List<Time> times = mas.Select(m => new Time(m)).ToList();
+            int k1 = times.Sum(x => x.Minutes);
+            int k2 = times.Sum(x => x.Second);
+            TimeSpan timeSpan = new TimeSpan(0, k1, k2);
+            Console.WriteLine(timeSpan);
             //Simple
             //List<TimeSpan> t = new List<TimeSpan>();
             //TimeSpan sum=new TimeSpan(0,0,0);
@@ -94,24 +94,18 @@ namespace LINQ
             //}
             //Console.WriteLine("hours "+sum.Hours+" minutes "+ sum.Minutes+" seconds "+ sum.Seconds);
             //LINQ
-            List<Time> times = new List<Time>();
-            foreach (var k in mas)
-            {
-                Time t = new Time();
-                string[] mas2 = k.Split(':').ToArray();
-                t.Minutes =Convert.ToInt32(mas2[0]);
-                t.Second = Convert.ToInt32(mas2[1]);
-                times.Add(t);
-            }
-            int k1 = times.Sum(x => x.Minutes);
-            int k2 = times.Sum(x => x.Second);
-            TimeSpan timeSpan = new TimeSpan(0, k1, k2);
-            Console.WriteLine(timeSpan);
         }
         public class Time
         {
             public int Minutes { get; set; }
             public int Second { get; set; }
+           public  Time(string s)
+            {
+                string[] mas2 = s.Split(':').ToArray();
+                Minutes = Convert.ToInt32(mas2[0]);
+                Second = Convert.ToInt32(mas2[1]);
+            }
+         
         }
     }
 }
