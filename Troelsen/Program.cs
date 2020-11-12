@@ -24,11 +24,25 @@ namespace Troelsen
                 case 8:CharFunctionality();break;
                 case 9: ParseFromStrings();break;
                 case 10: ParseFromStringsWithTryParse();break;
+                case 12:UseDatesAndTimes();break;
             }
 
             Console.ReadLine();
 
             return 0;
+        }
+        static void UseDatesAndTimes()
+        {
+            Console.WriteLine("=> Dates and Times:");
+            DateTime dt = new DateTime(2020, 11, 10);
+            // Какой это день месяца?
+            Console.WriteLine("The day of {0} is {1}", dt.Date, dt.DayOfWeek);
+            //увеличиваем на 2
+            dt = dt.AddMonths(2);
+            TimeSpan ts = new TimeSpan(12, 30, 0);
+            Console.WriteLine(ts);
+            // Вычесть 15 минут из текущего значения TimeSpan и вывести результат.
+            Console.WriteLine(ts.Subtract(new TimeSpan(0, 15, 0)));
         }
         static void ParseFromStringsWithTryParse()
         {
@@ -48,7 +62,8 @@ namespace Troelsen
                 Console.WriteLine("Failed to convert the input ({0}) to a double", value);
             }
             Console.WriteLine();
-        }
+        }
+
         static void ParseFromStrings()
         {
             Console.WriteLine(" Data type parsing: ");
@@ -97,10 +112,12 @@ namespace Troelsen
         }
         static void ObjectFunctionality() { 
             Console.WriteLine("=> System.Object Functionality:");
+            int k = 12;
+            int l = 12;
             // Ключевое слово int языка C# - это в действительности сокращение для
             // типа System.Int32, который наследует от System.Object следующие члены:
             Console.WriteLine("12.GetHashCode() = {0}", 12.GetHashCode());
-            Console.WriteLine("12.Equals (23) = {0}", 12.Equals(23));
+            Console.WriteLine("12.Equals (23) = {0}", k.Equals(l));
             Console.WriteLine("12.ToString () = {0}", 12.ToString());
             Console.WriteLine("12.GetType () = {0}", 12L.GetType());
             Console.WriteLine();}
