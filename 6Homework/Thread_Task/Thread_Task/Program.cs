@@ -33,7 +33,9 @@ namespace Thread_Task
             ////1 задание -1 способ(c использованием класса и  ParameterizedThreadStart
            Download_From_Site_Thread_With_Class(lines);
             //метод с помощью Thread поочередное скачивание
-           Download_From_Site_Thread_After_Thread(lines);
+           Thread t=new Thread(()=>Download_From_Site_Thread_After_Thread(lines));
+           t.Start();
+           t.Join();
             //метод с помощью Task поочередное скачивание
            Download_From_Site_Task_After_Task(lines);
             Thread.Sleep(5000);
