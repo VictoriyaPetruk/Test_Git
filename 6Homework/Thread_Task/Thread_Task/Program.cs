@@ -112,7 +112,7 @@ namespace Thread_Task
 
                         }
                 }
-        //2 и 3 задание
+        //4 и 3 задание
                 static ManualResetEvent signal = new ManualResetEvent(false);
                 //метод с помощью Thread поочередное скачивание
                 static void Download_From_Site_Thread_After_Thread(string[] lines)
