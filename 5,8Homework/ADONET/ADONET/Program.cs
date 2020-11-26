@@ -10,7 +10,7 @@ namespace ADONET
     class Program
     {
       
-        static void Main(string[] args)
+        static async Task  Main(string[] args)
         {
             string connectionstring = ConfigurationManager.ConnectionStrings["DemoConnection"].ConnectionString;
             using (var connection = new SqlConnection(connectionstring))
@@ -20,101 +20,128 @@ namespace ADONET
                     connection.Open();
                 }
                 catch (Exception es) { Console.WriteLine(es.Message); }
+                bool check = true;
+                while (check)
+                {
+                    Console.WriteLine("1-CreateAllTables\n2-InsertPhone и InsertCustomer\n3-DeletePhone\n4UpdatePhone\n5-ShowPhone\n6-Create database");
+                    int s = Convert.ToInt32(Console.ReadLine());
+                    switch (s)
+                    {
+                        case 1: { await  CreateTables(connection); break; }
+                        case 2:
+                        {
+                            var t1=InsertPhone(connection, new ClassPhone { Model = "xiaomi", Marka = "redmi 5s", Price = 5000, Camera = 16, Battery = 4500, Desc = "fast", Count = 5 }); 
+                            var t2= InsertCustomer(connection, new ClassCustomer { Name = "Daniil", Lname = "Tovsolug", City = "Kharkiv", Country = "Ukraine", Password = "12345", Login = "mastermagic", Email = "daniil@gmail.com", Number = "0970658734" });
+                                await t1;
+                                await t2;
+                            break;
+                        }
+                        case 3: { await Delete(connection); break; }
+                        case 4: { await UpdatePhone(connection, new ClassPhone { Model = "xiaomi5", Marka = "redmi 7s", Price = 5000, Camera = 16, Battery = 4500, Desc = "super fast", Count = 5, Memory = 164 }); break; }
+                        case 5: {
+                                var t1 =  SelectPhone(connection); await t1;
+                                IEnumerable<ClassPhone> classPhones = t1.Result;
+                                ShowPhones(classPhones); break; }
+                        case 6: { await CreateDatabase(connection); break; }
+                    }
+                    Console.WriteLine("Do you wsnt to exit? Y/N");
+                    string temp =Console.ReadLine();
+                    if(temp.ToLower()=="n")
+                    {
+                        check = true;
+                    }
+                    else
+                    {
+                        check = false;
+                    }
+                }
 
-                
-                Console.WriteLine("1-CreateAllTables\n2-InsertPhone\n3-InsertCustomer\n4-DeletePhone\n5UpdatePhone\n6-ShowPhone");
-                int s =Convert.ToInt32( Console.ReadLine());
-                switch (s)
-               { case 1:{ CreateDatabase(connection); CreateTables(connection); break; }
-                 case 2: { InsertPhone(connection, new ClassPhone { Model = "xiaomi", Marka = "redmi 5s", Price = 5000, Camera = 16, Battery = 4500, Desc = "fast", Count = 5 }); break; }
-                 case 3: { InsertCustomer(connection,new ClassCustomer { Name = "Daniil", Lname = "Tovsolug", City = "Kharkiv", Country = "Ukraine", Password = "12345", Login = "mastermagic", Email = "daniil@gmail.com", Number = "0970658734" }); break; }
-                 case 4: { Delete(connection);break; }
-                 case 5: { UpdatePhone(connection, new ClassPhone { Model = "xiaomi5", Marka = "redmi 7s", Price = 5000, Camera = 16, Battery = 4500, Desc = "super fast", Count = 5,Memory=164 }); break; }
-                 case 6: { IEnumerable<ClassPhone> classPhones = SelectPhone(connection); ShowPhones(classPhones);break; }
-
-               }
                 
                 
             }
             Console.ReadKey();
         }
-        private static void CreateDatabase(SqlConnection connection)
+        private async static Task CreateDatabase(SqlConnection connection)
         {
             SqlCommand command = new SqlCommand("CREATE DATABASE PHONESTORE");
             command.Connection = connection;
-            command.ExecuteNonQuery();
+            await command.ExecuteNonQueryAsync();
             connection.Close();
         }
-        private static void CreateTables(SqlConnection connection)
+        private async static Task CreateTables(SqlConnection connection)
         {
-            CreatePhone(connection);
-            CreateCustomer(connection);
-            CreateOrder(connection);
-            CreateOrderPhone(connection);
-            CreateBasket(connection);
-            CreateBasketPhone(connection);
+            var t1=CreatePhone(connection);
+            var t2=CreateCustomer(connection);
+            await t1;
+            await t2;
+            await CreateOrder(connection);
+            await  CreateOrderPhone(connection);
+            await  CreateBasket(connection);
+            await CreateBasketPhone(connection);
         }
-        private static void CreatePhone(SqlConnection connection)
+        //CreatePhone и CreateCustomer  могут идти параллельно 
+        private async static Task CreatePhone(SqlConnection connection)
         {
             string commands = "CREATE TABLE PHONE(ID_P INTEGER PRIMARY KEY IDENTITY,MODEL CHAR(50) NOT NULL,MARKA CHAR(100) NOT NULL,CAMERA INTEGER,MEMORY INTEGER,battery INTEGER,PRICE FLOAT, DESCRIPTIONPHONE CHAR(300),COUNT_PHONE INTEGER not null)";
-           SqlCommand command = new SqlCommand();
+            SqlCommand command = new SqlCommand();
             command.CommandText = commands;
             command.Connection = connection;
-            command.ExecuteNonQuery();
+            await  command.ExecuteNonQueryAsync();
            
         }
-        private static void CreateCustomer( SqlConnection connection) {
+        private async static Task CreateCustomer( SqlConnection connection) {
             string commands = "CREATE TABLE CUSTOMER(ID_C INT not null PRIMARY KEY IDENTITY,NAME CHAR(20) NOT NULL,LNAME CHAR(30) NOT NULL,EMAIL CHAR(50),NUMBER CHAR(20) ,COUNTRY CHAR(70),CITY CHAR(50), LOGIN CHAR(15),PASSWORD CHAR(30) not null)";
             SqlCommand command = new SqlCommand();
             command.CommandText = commands;
             command.Connection = connection;
-            command.ExecuteNonQuery();
+           await command.ExecuteNonQueryAsync();
             
         }
-        private static void CreateOrder(SqlConnection connection)
+        private async static Task CreateOrder(SqlConnection connection)
         {
             string commands = "CREATE TABLE ORDERS(ID_O INT not null PRIMARY KEY IDENTITY,ID_C INT not null,DATE_O DATETIME,ADRESS CHAR(150),CONSTRAINT FK_Orders_To_Customers FOREIGN KEY (ID_C) REFERENCES CUSTOMER (ID_C) ON DELETE CASCADE);";
             SqlCommand command = new SqlCommand();
             command.CommandText = commands;
             command.Connection = connection;
-            command.ExecuteNonQuery();
+           await command.ExecuteNonQueryAsync();
             
         }
-        private static void CreateOrderPhone( SqlConnection connection) {
+        private async static Task CreateOrderPhone( SqlConnection connection) {
             string commands = "CREATE TABLE ORDER_PHONE(ID_OP INT not null PRIMARY KEY IDENTITY,ID_O INT NOT NULL,ID_P INTEGER NOT NULL,SALE FLOAT,FOREIGN KEY (ID_O) REFERENCES ORDERS(ID_O) ON DELETE CASCADE,FOREIGN KEY (ID_P) REFERENCES PHONE(ID_P) ON DELETE CASCADE)";
             SqlCommand command = new SqlCommand();
             command.CommandText = commands;
             command.Connection = connection;
-            command.ExecuteNonQuery();
+           await command.ExecuteNonQueryAsync();
             
         }
-        private static void CreateBasket( SqlConnection connection) {
+        private async static Task CreateBasket( SqlConnection connection) {
             string commands = "CREATE TABLE BASKET(ID_B INT not null PRIMARY KEY IDENTITY,ID_C INT NOT NULL,FOREIGN KEY (ID_C) REFERENCES CUSTOMER(ID_C) ON DELETE CASCADE);";
             SqlCommand command = new SqlCommand();
             command.CommandText = commands;
             command.Connection = connection;
-            command.ExecuteNonQuery();
+           await command.ExecuteNonQueryAsync();
             
         }
-        private static void CreateBasketPhone(SqlConnection connection){
+        private async static Task CreateBasketPhone(SqlConnection connection){
             string commands = "CREATE TABLE BASKET_PHONE(ID_BP INT not null PRIMARY KEY IDENTITY,ID_B INT NOT NULL,ID_P INT NOT NULL,FOREIGN KEY (ID_B) REFERENCES BASKET(ID_B) ON DELETE CASCADE,FOREIGN KEY (ID_P) REFERENCES PHONE(ID_P) ON DELETE CASCADE)";
         SqlCommand command = new SqlCommand();
         command.CommandText = commands;
             command.Connection = connection;
-            command.ExecuteNonQuery();
+            await command.ExecuteNonQueryAsync();
             }
-        private static void InsertPhone(SqlConnection connection,ClassPhone phone)
+        //два метода могут идти параллельно 
+        private async static Task InsertPhone(SqlConnection connection,ClassPhone phone)
         {
             SqlCommand command = new SqlCommand( "INSERT INTO PHONE(MODEL,MARKA,CAMERA,MEMORY,battery,PRICE,DESCRIPTIONPHONE,COUNT_PHONE)" +
                 $"values('{phone.Model}','{phone.Marka}',{phone.Camera},{phone.Memory},{phone.Battery},{phone.Price},'{phone.Desc}',{phone.Count});", connection);
 
          
            
-            command.ExecuteNonQuery();
+               await  command.ExecuteNonQueryAsync();
             
            
         }
-        private static void InsertCustomer(SqlConnection connection, ClassCustomer customer)
+        private async static Task InsertCustomer(SqlConnection connection, ClassCustomer customer)
         {
             string commands = "INSERT INTO CUSTOMER(NAME,LNAME,EMAIL,NUMBER ,COUNTRY,CITY, LOGIN,PASSWORD)" +
                    "values(@name,@lname,@email,@number,@country,@city,@login,@password);";
@@ -129,9 +156,9 @@ namespace ADONET
             command.Parameters.AddWithValue("@login", customer.Login);
             command.Parameters.AddWithValue("@password", customer.Password);
             command.Connection = connection;
-            command.ExecuteNonQuery();
+           await command.ExecuteNonQueryAsync();
         }
-        private static void UpdatePhone( SqlConnection connection,ClassPhone phone) {
+        private async static Task UpdatePhone( SqlConnection connection,ClassPhone phone) {
             string commands = "update PHONE SET MODEL=@model,MARKA=@marka,CAMERA=@camera,MEMORY=@memory,battery=@battery,PRICE=@PRICE,DESCRIPTIONPHONE=@DESCRIPTIONPHONE,COUNT_PHONE=@COUNT_PHONE WHERE ID_P=5";
             
             SqlCommand command = new SqlCommand();
@@ -145,11 +172,11 @@ namespace ADONET
             command.Parameters.AddWithValue("@DESCRIPTIONPHONE", phone.Desc);
             command.Parameters.AddWithValue("@COUNT_PHONE", phone.Count);
             command.Connection = connection;
-            command.ExecuteNonQuery();
+           await  command.ExecuteNonQueryAsync();
 
         }
 
-        private static IEnumerable<ClassPhone> SelectPhone( SqlConnection connection)
+        private async static Task<List<ClassPhone>> SelectPhone( SqlConnection connection)
         {
             List<ClassPhone> ListclassPhones = new List<ClassPhone>();
             
@@ -157,7 +184,7 @@ namespace ADONET
             SqlCommand command = new SqlCommand();
             command.CommandText = commands;
             command.Connection = connection;
-            using (var reader = command.ExecuteReader())
+            using (var reader =await  command.ExecuteReaderAsync())
             {
                 while(reader.Read())
                 {
@@ -186,12 +213,12 @@ namespace ADONET
             }
 
         }
-        private static void Delete( SqlConnection connection) {
+        private async static Task Delete( SqlConnection connection) {
             string commands = "DELETE PHONE WHERE ID_P=9";
             SqlCommand command = new SqlCommand();
             command.CommandText = commands;
             command.Connection = connection;
-            command.ExecuteNonQuery();
+            await command.ExecuteNonQueryAsync();
             
         }
 

@@ -26,17 +26,17 @@ namespace Thread_Task
                 "https://docs.microsoft.com/ru-ru/dotnet/csharp/whats-new/csharp-version-history",
                 "https://docs.microsoft.com/ru-ru/dotnet/csharp/programming-guide/types/"
             };
-            ////1 задание -2 способ(с использованием Thread.Sleep)
-            Download_From_Site_Thread(lines);
-            ////2 задание (2 способом-с использованием Thread.Sleep)
-            Download_From_Site_Task(lines);
-            ////1 задание -1 способ(c использованием класса и  ParameterizedThreadStart
-           Download_From_Site_Thread_With_Class(lines);
+            //1 задание -2 способ(с использованием Thread.Sleep)
+           // Download_From_Site_Thread(lines);
+           //2 задание (2 способом-с использованием Thread.Sleep)
+           // Download_From_Site_Task(lines);
+           //1 задание -1 способ(c использованием класса и  ParameterizedThreadStart
+          // Download_From_Site_Thread_With_Class(lines);
             //метод с помощью Thread поочередное скачивание
-           Thread t=new Thread(()=>Download_From_Site_Thread_After_Thread(lines));
-           t.Start();
-           t.Join();
-            //метод с помощью Task поочередное скачивание
+          // Thread t=new Thread(()=>Download_From_Site_Thread_After_Thread(lines));
+             //t.Start();
+           //t.Join();
+           // //метод с помощью Task поочередное скачивание
            Download_From_Site_Task_After_Task(lines);
             Thread.Sleep(5000);
             Console.ReadLine();
@@ -114,19 +114,27 @@ namespace Thread_Task
                 }
         //4 и 3 задание
                 static ManualResetEvent signal = new ManualResetEvent(false);
+                static  List<Thread> threads = new List<Thread>();
+                static List<Task> tasks = new List<Task>();
+         
                 //метод с помощью Thread поочередное скачивание
                 static void Download_From_Site_Thread_After_Thread(string[] lines)
                 {
                     
                     for (int i = 0; i < 10; i++)
                     {
-                        var thread = new Thread(() => Download_From_Site_One_After_One(lines[i], i));
-                        thread.IsBackground = true;
-                        //signal.Dispose();
-                        thread.Start();
-                        Thread.Sleep(2000);
-                        signal.WaitOne();
-                    }
+                           
+                            var thread= new Thread(new ParameterizedThreadStart(Download_From_Site_One_After_One));
+                            threads.Add(thread);
+                           
+                     }
+                     for (int i = 0; i < threads.Count; i++)
+                        { Parametrs p = new Parametrs();
+                           p.i = i;
+                           p.str = lines[i];
+                           threads[i].Start(p);
+                           signal.WaitOne();
+                        }
                    
                 }
                 //метод с помощью Task поочередное скачивание
@@ -134,23 +142,37 @@ namespace Thread_Task
                  {
                             for (int i = 0; i < 10; i++)
                             {
-                                Task task = Task.Run(() => Download_From_Site_One_After_One(lines[i], i));
-                                Console.WriteLine("Task");
-                                Thread.Sleep(3000);
+                                    Parametrs p = new Parametrs();
+                                    p.i = i;
+                                    p.str = lines[i];
+                                    Task task = new Task(() => Download_From_Site_One_After_One(p));
+                                    tasks.Add(task);
+                                    Console.WriteLine($"Task {i} создан");
+                               
+                                
+                            }
+                            for (int i = 0; i < tasks.Count; i++)
+                            {
+                                tasks[i].Start();
                                 signal.WaitOne();
                             }
+
                 }
-                //метод для скачивания, немного измененный 
-                static void Download_From_Site_One_After_One(string str, int i)
+                //метод для скачивания поочередного
+                static void Download_From_Site_One_After_One(object k)
                 {
-                    using (WebClient ws = new WebClient())
-                    {
-                        contents.Add(ws.DownloadString(str));
-                        Console.WriteLine(i + "-" + "Data is download" + " " + str + " Thread Id-" + Thread.CurrentThread.ManagedThreadId);
-                     
-                        signal.Set();
-                        Thread.Sleep(5000);
-                    }
+                            Parametrs p = (Parametrs)k;
+                            using (WebClient ws = new WebClient())
+                            {
+                                contents.Add(ws.DownloadString(p.str));
+                                Console.WriteLine(p.i + "-" + "Data is download" + " " + p.str + " Thread Id-" + Thread.CurrentThread.ManagedThreadId);
+                                   
+                                    signal.Set();
+                                    Thread.Sleep(5000);
+
+                            }
+                            
+                    
                 }
     }
 }
