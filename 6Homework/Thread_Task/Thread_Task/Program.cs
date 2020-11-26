@@ -27,17 +27,17 @@ namespace Thread_Task
                 "https://docs.microsoft.com/ru-ru/dotnet/csharp/programming-guide/types/"
             };
             //1 задание -2 способ(с использованием Thread.Sleep)
-            Download_From_Site_Thread(lines);
+           Download_From_Site_Thread(lines);
            //2 задание (2 способом-с использованием Thread.Sleep)
-           Download_From_Site_Task(lines);
+          Download_From_Site_Task(lines);
            //1 задание -1 способ(c использованием класса и  ParameterizedThreadStart
            Download_From_Site_Thread_With_Class(lines);
             //метод с помощью Thread поочередное скачивание
            Thread t=new Thread(()=>Download_From_Site_Thread_After_Thread(lines));
              t.Start();
-           t.Join();
+          t.Join();
            // //метод с помощью Task поочередное скачивание
-           Download_From_Site_Task_After_Task(lines);
+          Download_From_Site_Task_After_Task(lines);
             Thread.Sleep(5000);
             Console.ReadLine();
             Console.WriteLine("Exit");
@@ -123,16 +123,14 @@ namespace Thread_Task
                     
                     for (int i = 0; i < 10; i++)
                     {
-                           
-                            var thread= new Thread(new ParameterizedThreadStart(Download_From_Site_One_After_One));
-                            threads.Add(thread);
-                           
+                        Parametrs p = new Parametrs();
+                        p.i = i;
+                        p.str = lines[i];
+                        threads.Add(new Thread(()=>Download_From_Site_One_After_One(p)));  
                      }
                      for (int i = 0; i < threads.Count; i++)
-                        { Parametrs p = new Parametrs();
-                           p.i = i;
-                           p.str = lines[i];
-                           threads[i].Start(p);
+                        { 
+                           threads[i].Start();
                            signal.WaitOne();
                         }
                    
