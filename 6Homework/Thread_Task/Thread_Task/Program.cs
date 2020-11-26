@@ -27,15 +27,15 @@ namespace Thread_Task
                 "https://docs.microsoft.com/ru-ru/dotnet/csharp/programming-guide/types/"
             };
             //1 задание -2 способ(с использованием Thread.Sleep)
-           // Download_From_Site_Thread(lines);
+            Download_From_Site_Thread(lines);
            //2 задание (2 способом-с использованием Thread.Sleep)
-           // Download_From_Site_Task(lines);
+           Download_From_Site_Task(lines);
            //1 задание -1 способ(c использованием класса и  ParameterizedThreadStart
-          // Download_From_Site_Thread_With_Class(lines);
+           Download_From_Site_Thread_With_Class(lines);
             //метод с помощью Thread поочередное скачивание
-          // Thread t=new Thread(()=>Download_From_Site_Thread_After_Thread(lines));
-             //t.Start();
-           //t.Join();
+           Thread t=new Thread(()=>Download_From_Site_Thread_After_Thread(lines));
+             t.Start();
+           t.Join();
            // //метод с помощью Task поочередное скачивание
            Download_From_Site_Task_After_Task(lines);
             Thread.Sleep(5000);
@@ -158,7 +158,7 @@ namespace Thread_Task
                             }
 
                 }
-                //метод для скачивания поочередного
+                //метод для скачивания поочередно
                 static void Download_From_Site_One_After_One(object k)
                 {
                             Parametrs p = (Parametrs)k;
