@@ -1,0 +1,10 @@
+﻿@page
+@model Shop_Phone_Web.Pages.BasketModel
+@{
+    ViewData["Title"] = "Basket";
+}
+
+<h4>Ваши товары:</h4>
+<a asp-page="/MakeOrder" style="color:white">
+    <input id="Submit1" type="submit" class="btn btn-success" value="Оформить заказ" />
+</a>

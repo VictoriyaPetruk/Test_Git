@@ -1,0 +1,22 @@
+﻿@page
+@model Shop_Phone_Web.Pages.EntranceModel
+@{
+    ViewData["Title"] = "Entrance";
+}
+
+<h4>Войти на сайт</h4>
+<form>
+    <p>Логин</p>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username">
+    </div>
+    <div class="input-group mb-3">
+        <p>Пароль</p> <input id="Password1" type="password" class="form-control" placeholder="Password" aria-label="Password" />
+    </div>
+    <br />
+    <input  type="submit" value="Войти" class="btn btn-primary" />
+</form>
+<br />
+<a asp-page="/Registration" style="color:white">
+    <input  type="button" value="Зарегестрироваться" class="btn btn-success" />
+</a>

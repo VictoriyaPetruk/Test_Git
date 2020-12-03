@@ -1,0 +1,48 @@
+﻿@page
+@model Shop_Phone_Web.Pages.RegistrationModel
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<h4>Registration</h4>
+<form method="post">
+    <p>Имя</p>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="name" placeholder="first name" aria-label="first name">
+    </div>
+    <p>Фамилия</p>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="lname" placeholder="last name" aria-label="last name">
+    </div>
+    <p>Почта</p>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="email" placeholder="@@example.com" aria-label="@@example.com">
+    </div>
+    <p>Номер телефона</p>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="number" placeholder="(000)000-00-00" aria-label="(000)000-00-00">
+    </div>
+    <p>Страна</p>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="country" placeholder="Country" aria-label="Country">
+    </div>
+    <p>Город</p>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="city" placeholder="City" aria-label="City">
+    </div>
+    <p>Логин</p>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="login" placeholder="Username" aria-label="Username">
+    </div>
+    <p>Пароль</p>
+    <div class="input-group mb-3">
+        <input id="Password1" type="password" name="password" class="form-control" placeholder="Password" aria-label="Password">
+    </div>
+
+    <br />
+    <input type="submit" value="Зарегестрироваться" class="btn btn-success" />
+</form>
+<br />
+<a asp-page="/Entrance" style="color:white">
+    <input type="button" value="Войти" class="btn btn-primary" />
+</a>

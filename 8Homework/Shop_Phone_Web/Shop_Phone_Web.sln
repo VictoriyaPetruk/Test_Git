@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.779
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop_Phone_Web", "Shop_Phone_Web\Shop_Phone_Web.csproj", "{305294F9-70CA-48B0-8413-C55675DED731}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryWorkWithADONET", "LibraryWorkWithADONET\LibraryWorkWithADONET.csproj", "{B38F63A3-5EAE-4740-AE17-B41CA88F140B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{305294F9-70CA-48B0-8413-C55675DED731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{305294F9-70CA-48B0-8413-C55675DED731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{305294F9-70CA-48B0-8413-C55675DED731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{305294F9-70CA-48B0-8413-C55675DED731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B38F63A3-5EAE-4740-AE17-B41CA88F140B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B38F63A3-5EAE-4740-AE17-B41CA88F140B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B38F63A3-5EAE-4740-AE17-B41CA88F140B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B38F63A3-5EAE-4740-AE17-B41CA88F140B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {352436AF-6662-4EB3-A088-73F5F2834F5D}
+	EndGlobalSection
+EndGlobal
