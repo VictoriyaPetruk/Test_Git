@@ -4,13 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibraryWorkWithADONET
+namespace LibrarySetOfClases
 {
-    class ClassBasket
+   public class ClassBasket
     {
         private int id;
+        private string login_user;
         private int idcustomer;
-        public int IDBasket { get {return id; } }
+        public int IDBasket { get {return id; } set { id = value; } }
+        public string Login_U { get { return login_user; } set { login_user = value; } }
         public int IDCustomer { get { return idcustomer; } set { idcustomer = value; } }
         public ClassBasket()
         {

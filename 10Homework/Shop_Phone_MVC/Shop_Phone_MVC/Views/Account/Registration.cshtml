@@ -1,0 +1,65 @@
+﻿@model RegistrationViewModel
+@{
+    ViewData["Title"] = "Registration";
+}
+<script>
+    if (@Model.Message!= null) {
+        alert('@Model.Message');
+    }
+
+</script>
+<h4>Регестрация</h4>
+<form method="post" asp-controller="Account" asp-action="Registration">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="input-group mb-3">
+        <label asp-for="Name"></label><br />
+        <input asp-for="Name" class="form-control" placeholder="Name" aria-label="Name"/>
+        <span asp-validation-for="Name" ></span>
+    </div>
+    <div class="input-group mb-3">
+        <label asp-for="Lname"></label><br />
+        <input asp-for="Lname" class="form-control" placeholder="Last name" aria-label="Last name"/>
+        <span asp-validation-for="Lname" ></span>
+    </div>
+    
+    <div class="input-group mb-3">
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" class="form-control"  placeholder="@@example.com" aria-label="@@example.com"/>
+        <span asp-validation-for="Email" ></span>
+    </div>
+    <div class="input-group mb-3">
+        <label asp-for="Number"></label><br />
+        <input asp-for="Number" class="form-control" placeholder="(000)000-00-00" aria-label="(000)000-00-00"/>
+        <span asp-validation-for="Number" ></span>
+    </div>
+    <div class="input-group mb-3">
+        <label asp-for="Country"></label><br />
+        <input asp-for="Country" class="form-control" placeholder="Country" aria-label="Country"/>
+        <span asp-validation-for="Country" ></span>
+       
+    </div>
+    <div class="input-group mb-3">
+        <label asp-for="City"></label><br />
+        <input asp-for="City" class="form-control" placeholder="City" aria-label="City"/>
+        <span asp-validation-for="City" ></span>
+    </div>
+    <div class="input-group mb-3">
+        <label asp-for="Login"></label><br />
+        <input asp-for="Login" class="form-control" placeholder="Login" aria-label="Login"/>
+        <span asp-validation-for="Login" ></span>
+      
+    </div>
+    <div class="input-group mb-3">
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password"   class="form-control" placeholder="Password" aria-label="Password"/>
+        <span asp-validation-for="Password" ></span>
+       
+    </div>
+
+    <br />
+    <input type="submit" value="Зарегестрироваться" class="btn btn-success" />
+</form>
+<br />
+<a asp-area="" asp-controller="Account" style="color:white" asp-action="Entrance">
+    <input type="button" value="Войти" class="btn btn-primary" />
+</a>
