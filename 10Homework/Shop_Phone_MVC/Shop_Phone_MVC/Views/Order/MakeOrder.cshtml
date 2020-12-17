@@ -1,0 +1,24 @@
+﻿@model MakeOrderViewModel
+@{
+    ViewData["Title"] = "MakeOrder";
+}
+<h3>Ваш заказ на имя: @Model.Lname @Model.Name </h3>
+<h4>Колличество товаров:<b> @Model.Count </b></h4>
+<h4>Сумма: <b>@Model.Sum</b> грн</h4>
+<h4>Введите адресс доставки:</h4>
+<form method="post" asp-controller="Order" asp-action="MakeOrder">
+    <div class="input-group mb-3">
+        <label asp-for="City"></label><br />
+        <input name="city" asp-for="City" class="form-control" placeholder="City" aria-label="City" />
+        <span asp-validation-for="City"></span>
+    </div>
+    <div class="input-group mb-3">
+        <label asp-for="Number_Deartament"></label><br />
+        <input name="numver_dep" asp-for="Number_Deartament" class="form-control" placeholder="Number_Deartament" aria-label="Number_Deartament" />
+        <span asp-validation-for="Number_Deartament"></span>
+    </div>
+    <br/>
+    <input type="submit" value="Оформить заказ" class="btn btn-success" />
+</form>
+
+

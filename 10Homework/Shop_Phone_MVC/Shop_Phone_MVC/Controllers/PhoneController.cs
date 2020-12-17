@@ -7,24 +7,27 @@ using LibraryServicesWorkWithDB;
 using LibrarySetOfClases;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shop_Phone_MVC.Filters;
 using Shop_Phone_MVC.Models;
 
 namespace Shop_Phone_MVC.Controllers
 {
+    [CustomerExeptionFilter]
     public class PhoneController : Controller
     {
         private readonly IServicesDB db;
         public List<ClassPhone> phones = new List<ClassPhone>();
         public List<ClassPhone> basket_phone = new List<ClassPhone>();
+        List<ClassCustomer> customers = new List<ClassCustomer>();
+        List<ClassBasket> users_basket = new List<ClassBasket>();
+        PhonesViewModel phoneViewModel = new PhonesViewModel();
+        List<PhoneViewModel> phoneViews = new List<PhoneViewModel>();
         public PhoneController(IServicesDB ado_)
         {
 
             db = ado_;
-            
             // throw new Exception();
         }
-        PhonesViewModel phoneViewModel = new PhonesViewModel();
-        List<PhoneViewModel> phoneViews = new List<PhoneViewModel>();
         [HttpGet]
         public IActionResult Phone()
         {
@@ -77,11 +80,10 @@ namespace Shop_Phone_MVC.Controllers
                 }
                 return View(phoneViewModel);
             }
-            //phoneViewModel.OnPost(id);
+           
             
         }
-        List<ClassCustomer> customers = new List<ClassCustomer>();
-        List<ClassBasket> users_basket = new List<ClassBasket>();
+        
         public void AddProductToBasket(int id_phone)
         {
             bool f = true;
@@ -105,85 +107,6 @@ namespace Shop_Phone_MVC.Controllers
             }
             
         }
-        // GET: Phone
-        //    public ActionResult Index()
-        //    {
-        //        return View();
-        //    }
-
-        //    // GET: Phone/Details/5
-        //    public ActionResult Details(int id)
-        //    {
-        //        return View();
-        //    }
-
-        //    // GET: Phone/Create
-        //    public ActionResult Create()
-        //    {
-        //        return View();
-        //    }
-
-        //    // POST: Phone/Create
-        //    [HttpPost]
-        //    [ValidateAntiForgeryToken]
-        //    public ActionResult Create(IFormCollection collection)
-        //    {
-        //        try
-        //        {
-        //            // TODO: Add insert logic here
-
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch
-        //        {
-        //            return View();
-        //        }
-        //    }
-
-        //    // GET: Phone/Edit/5
-        //    public ActionResult Edit(int id)
-        //    {
-        //        return View();
-        //    }
-
-        //    // POST: Phone/Edit/5
-        //    [HttpPost]
-        //    [ValidateAntiForgeryToken]
-        //    public ActionResult Edit(int id, IFormCollection collection)
-        //    {
-        //        try
-        //        {
-        //            // TODO: Add update logic here
-
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch
-        //        {
-        //            return View();
-        //        }
-        //    }
-
-        //    // GET: Phone/Delete/5
-        //    public ActionResult Delete(int id)
-        //    {
-        //        return View();
-        //    }
-
-        //    // POST: Phone/Delete/5
-        //    [HttpPost]
-        //    [ValidateAntiForgeryToken]
-        //    public ActionResult Delete(int id, IFormCollection collection)
-        //    {
-        //        try
-        //        {
-        //            // TODO: Add delete logic here
-
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch
-        //        {
-        //            return View();
-        //        }
-        //    }
+       
     }
 }

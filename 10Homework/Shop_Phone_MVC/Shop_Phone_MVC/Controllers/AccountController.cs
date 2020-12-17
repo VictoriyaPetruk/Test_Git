@@ -11,19 +11,21 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shop_Phone_MVC.Filters;
 using Shop_Phone_MVC.Models;
 
 namespace Shop_Phone_MVC.Controllers
 {
+    [CustomerExeptionFilter]
     public class AccountController : Controller
-    { //  private ClassCustomer customer = new ClassCustomer();
-       private readonly IServicesDB db;
+    { 
+        private readonly IServicesDB db;
+        RegistrationViewModel model = new RegistrationViewModel();
+        List<ClassCustomer> customers = new List<ClassCustomer>();
         public  AccountController(IServicesDB ado_)
         {
             db = ado_;
         }
-      
-        RegistrationViewModel model = new RegistrationViewModel();
         [HttpGet]
         public IActionResult Registration()
         {
@@ -38,7 +40,7 @@ namespace Shop_Phone_MVC.Controllers
             {
                 model.Message = "You are registrate";
                 ClassCustomer customer = new ClassCustomer { Name = model.Name, Lname = model.Lname, Email = model.Email, Number = model.Number, Country = model.Country, Login = model.Login, Password = model.Password,City=model.City };
-                // model.OnPost(name, lname, email, number, country, city, login, password);
+                
                 SqlConnection conn = db.Connection;
                 db.InsertCustomer(conn, customer).Wait();
                 await Authenticate(model.Login);
@@ -47,8 +49,6 @@ namespace Shop_Phone_MVC.Controllers
             }
             else { ModelState.AddModelError("", "Некорректные логин и(или) пароль"); model.Message = "Error during registration"; return View(model); }
         }
-        
-        List<ClassCustomer> customers = new List<ClassCustomer>();
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Entrance(EntranceViewModel loginmodel)
@@ -97,80 +97,8 @@ namespace Shop_Phone_MVC.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Entrance", "Account");
         }
-        // GET: Account/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Account/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Account/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        // GET: Account/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Account/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        // GET: Account/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Account/Delete/5
-        //    [HttpPost]
-        //    [ValidateAntiForgeryToken]
-        //    public ActionResult Delete(int id, IFormCollection collection)
-        //    {
-        //        try
-        //        {
-        //            // TODO: Add delete logic here
-
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch
-        //        {
-        //            return View();
-        //        }
-        //    }
-        //}
+       
+        
+      
     }
 }

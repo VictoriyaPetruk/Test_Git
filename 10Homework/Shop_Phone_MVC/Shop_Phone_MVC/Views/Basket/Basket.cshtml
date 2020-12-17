@@ -3,8 +3,16 @@
 @{
     ViewData["Title"] = "Basket";
 }
-
+<script>
+    window.onload = function Load() {
+      if(Number(@Model.phones.Count)==0) {
+        let btn = document.getElementById("Submit1");
+        btn.setAttribute("disabled", "disabled");
+        }
+    }
+</script>
 <h4>Ваши товары:</h4>
+<h3>@ViewBag.Message</h3>
 @for (int i = 0; i < Model.phones.Count; i++)
 {
 <ul>
@@ -16,8 +24,8 @@
     
 </ul>
 }
-<a asp-area="" asp-controller="Home" style="color:white" asp-action="MakeOrder">
-    <input id="Submit1" type="submit" class="btn btn-success" value="Оформить заказ" />
+<a asp-area="" asp-controller="Order" style="color:white" asp-action="MakeOrder">
+    <input id="Submit1"  type="submit" class="btn btn-success" value="Оформить заказ" />
 </a>
 
 

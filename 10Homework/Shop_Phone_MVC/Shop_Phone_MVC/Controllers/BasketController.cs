@@ -4,21 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using LibraryServicesWorkWithDB;
 using Microsoft.AspNetCore.Mvc;
+using Shop_Phone_MVC.Filters;
 using Shop_Phone_MVC.Models;
 
 namespace Shop_Phone_MVC.Controllers
 {
+    [CustomerExeptionFilter]
     public class BasketController : Controller
     {
         private readonly IServicesDB db;
+        BasketViewModel model = new BasketViewModel();
         public BasketController(IServicesDB ado_)
         {
             db = ado_;
         }
-        BasketViewModel model = new BasketViewModel();
         public IActionResult Basket()
         {
+            
             LoadPhone();
+            if (model.phones.Count==0)
+            { ViewBag.Message = "У вас не товаров"; }
             return View(model);
         }
         public  void LoadPhone()
@@ -28,8 +33,6 @@ namespace Shop_Phone_MVC.Controllers
         [HttpPost]
         public IActionResult Basket(int id)
         {
-
-
             return View();
         }
     }

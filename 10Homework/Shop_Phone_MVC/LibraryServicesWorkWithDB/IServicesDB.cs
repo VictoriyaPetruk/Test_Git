@@ -18,5 +18,12 @@ namespace LibraryServicesWorkWithDB
         Task InsertInBasketPhone(SqlConnection connection, int idc, int idp);
         Task<List<ClassPhone>> SelectPhoneByCustomer(SqlConnection connection, string login_user);
         Task<List<ClassBasket>> SelectUsersBasket(SqlConnection connection);
+        Task<List<string>> GetCustomer(SqlConnection connection, string login_user);
+        Task InsertOrderId(SqlConnection connection, string login, string adress);
+        Task InsertOrderPhone(SqlConnection connection, string login, int idp);
+        Task DeleteFromBasket(SqlConnection connection, int id, string login);
+        Task ReduceCount(SqlConnection connection, int id, int count);
+        Task<int> GetNumberOrder(SqlConnection connection, string login_user);
+
     }
 }

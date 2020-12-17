@@ -259,7 +259,25 @@ namespace LibraryWorkWithADONET
         }
         public async Task Delete(SqlConnection connection,int id)
         {
-            string commands = $"DELETE PHONE WHERE ID_P={id}";
+            string commands = $"DELETE from PHONE WHERE ID_P={id}";
+            SqlCommand command = new SqlCommand();
+            command.CommandText = commands;
+            command.Connection = connection;
+            await command.ExecuteNonQueryAsync();
+
+        }
+        public async Task ReduceCount(SqlConnection connection, int id,int count)
+        {
+            string commands = $"Update PHONE set count_phone={count-1} WHERE ID_P={id}";
+            SqlCommand command = new SqlCommand();
+            command.CommandText = commands;
+            command.Connection = connection;
+            await command.ExecuteNonQueryAsync();
+
+        }
+        public async Task DeleteFromBasket(SqlConnection connection, int id,string login)
+        {
+            string commands = $"DELETE BASKET_PHONE  from BASKET_PHONE join  basket on BASKET_PHONE.id_b=basket.id_b join customer  on customer.id_c=basket.id_c WHERE BASKET_PHONE.ID_P={id} and customer.login='{login}'";
             SqlCommand command = new SqlCommand();
             command.CommandText = commands;
             command.Connection = connection;
@@ -284,5 +302,66 @@ namespace LibraryWorkWithADONET
             command.Connection = connection;
             await command.ExecuteNonQueryAsync();
         }
+        public async Task<List<string>> GetCustomer(SqlConnection connection, string login_user)
+        {
+            List<string> fio = new List<string>();
+            string commands = $"SELECT Name,Lname from customer where login='{login_user}'";
+            SqlCommand command = new SqlCommand();
+            command.CommandText = commands;
+            command.Connection = connection;
+            using (var reader = await command.ExecuteReaderAsync())
+            {
+               while(reader.Read())
+                {
+
+                    string name = reader.GetString(0);
+                    string lname = reader.GetString(1);
+                    fio.Add(name);
+                    fio.Add(lname);
+
+                }
+
+            }
+            return fio;
+        }
+        public async Task InsertOrderId(SqlConnection connection, string login, string adress)
+        {
+            DateTime date = DateTime.Today;
+           string date_s= date.ToString("MM.dd.yyyy");
+            string commands = "INSERT INTO ORDERS(ID_C,DATE_O,ADRESS)" +
+                $"values((select id_c from customer where login='{login}'),'{date_s}','{adress}')";
+            SqlCommand command = new SqlCommand();
+            command.CommandText = commands;
+            command.Connection = connection;
+            await command.ExecuteNonQueryAsync();
+            
+        }
+        public async Task InsertOrderPhone(SqlConnection connection,string login, int idp)
+        {
+            string commands = $"INSERT INTO ORDER_PHONE(ID_O,ID_P,SALE)" +
+                $"values((Select Max(o.ID_O)  from ORDERS o where o.ID_C=(select v.id_c from customer v where v.login='{login}')),{idp},0)";
+            SqlCommand command = new SqlCommand();
+            command.CommandText = commands;
+            command.Connection = connection;
+            await command.ExecuteNonQueryAsync();
+        }
+        public async Task<int> GetNumberOrder(SqlConnection connection, string login_user)
+        {
+            int id=0;
+            string commands = $"SELECT o.id_o from orders o join customer c on o.id_c=c.id_c where c.login='{login_user}'";
+            SqlCommand command = new SqlCommand();
+            command.CommandText = commands;
+            command.Connection = connection;
+            using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (reader.Read())
+                {
+                    id = reader.GetInt32(0);
+                }
+
+            }
+            return id;
+        }
     }
+    
 }

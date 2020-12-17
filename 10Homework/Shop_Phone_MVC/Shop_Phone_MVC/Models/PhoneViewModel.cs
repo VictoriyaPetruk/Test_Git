@@ -20,45 +20,7 @@ namespace Shop_Phone_MVC.Models
         public string Description { get; set; }
         public int Count { get; set; }
         public string Sourse { get; set; }
-        //ClassADONET adonet = new ClassADONET();
        
-        //public List<ClassPhone> phones = new List<ClassPhone>();
-       
-        //public void OnGet()
-        //{
-        //    SqlConnection conn = adonet.GetConncection();
-        //    Load_Data(conn);
-        //    NameUser = "Vika";
-        //    Message = "Hello " + NameUser;
-        //}
-        //public List<ClassPhone> basket_phone = new List<ClassPhone>();
-        //public void OnPost(int id)
-        //{
-        //    NameUser = "Vika";
-        //    SqlConnection conn = adonet.GetConncection();
-        //    phones = adonet.SelectPhone(conn).Result;
-        //    if (NameUser == "")
-        //    {
-        //        Message = "You need to registration";
-        //    }
-        //    else
-        //    {
-        //        for (int i = 0; i < phones.Count; i++)
-        //        {
-        //            if (phones[i].IDPhone == id)
-        //            {
-        //                basket_phone.Add(phones[i]); Message = "Phone is aded to basket"; break;
-        //            }
-        //        }
-        //    }
-
-
-        //}
-        //public void Load_Data(SqlConnection conn)
-        //{
-            
-        //    phones = adonet.SelectPhone(conn).Result;
-        //}
     }
     public class PhonesViewModel
     {

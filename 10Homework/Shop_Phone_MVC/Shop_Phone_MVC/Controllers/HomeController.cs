@@ -15,12 +15,10 @@ namespace Shop_Phone_MVC.Controllers
 {   [CustomerExeptionFilter]
     public class HomeController : Controller
     {
-       
         private readonly IServicesDB  db;
      
         public  HomeController(IServicesDB ado_)
         {
-      
             db = ado_;
            // throw new Exception();
         }
