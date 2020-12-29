@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\8Homework\Shop_Phone_Web\LibraryWorkWithADONET\LibraryWorkWithADONET.csproj" />
+    <ProjectReference Include="..\LibrarySetOfClases\LibrarySetOfClases.csproj" />
+    <ProjectReference Include="..\LibraryWorkWithADONET\LibraryWorkWithADONET.csproj" />
   </ItemGroup>
 
 </Project>
