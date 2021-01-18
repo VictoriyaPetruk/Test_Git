@@ -15,7 +15,7 @@ using Shop_Phone_MVC.Filters;
 using Shop_Phone_MVC.Models;
 
 namespace Shop_Phone_MVC.Controllers
-{
+{//для отображения страниц входа в систему и регестрации
     [CustomerExeptionFilter]
     public class AccountController : Controller
     { 

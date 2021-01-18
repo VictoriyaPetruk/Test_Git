@@ -13,6 +13,7 @@ using Shop_Phone_MVC.Models;
 namespace Shop_Phone_MVC.Controllers
 {
     [CustomerExeptionFilter]
+    //для отображения главной страницы покупки телефонов
     public class PhoneController : Controller
     {
         private readonly IServicesDB db;
@@ -26,6 +27,7 @@ namespace Shop_Phone_MVC.Controllers
         {
 
             db = ado_;
+            //проверка отображения error-страницы
             // throw new Exception();
         }
         [HttpGet]
@@ -63,7 +65,7 @@ namespace Shop_Phone_MVC.Controllers
             if (User.Identity.Name ==null)
             {
                 phoneViewModel.Message = "You need to registration";
-                phoneViewModel = new PhonesViewModel { NameUser = User.Identity.Name, Message = "Hello", phonesview = phoneViews };
+                phoneViewModel = new PhonesViewModel { NameUser = User.Identity.Name, Message = "Sorry.You can`t buy phones.", phonesview = phoneViews };
                 return View(phoneViewModel);
                 
             }
@@ -74,7 +76,7 @@ namespace Shop_Phone_MVC.Controllers
                     if (phones[i].IDPhone == id)
                     {
                         AddProductToBasket(id);
-                        phoneViewModel = new PhonesViewModel { NameUser = User.Identity.Name, Message = "Phone is aded to basket", phonesview = phoneViews };
+                        phoneViewModel = new PhonesViewModel { NameUser ="", Message = "Phone is aded to basket", phonesview = phoneViews };
                         break;
                     }
                 }

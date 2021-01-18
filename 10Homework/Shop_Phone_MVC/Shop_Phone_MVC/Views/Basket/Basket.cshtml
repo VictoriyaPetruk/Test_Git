@@ -15,17 +15,22 @@
 <h3>@ViewBag.Message</h3>
 @for (int i = 0; i < Model.phones.Count; i++)
 {
-<ul>
-    <li class="list-group-item list-group-item-success">
-        <p>Модель: @Model.phones[i].Model </p>
-        <p>Марка: @Model.phones[i].Marka </p>
-        <p>Цена: @Model.phones[i].Price грн. </p>
-    </li>
-    
-</ul>
+    <ul>
+        <li class="list-group-item list-group-item-success">
+            <p>Модель: @Model.phones[i].Model </p>
+            <p>Марка: @Model.phones[i].Marka </p>
+            <p>Цена: @Model.phones[i].Price грн. </p>
+        </li>
+
+    </ul>
+    <form method="post">
+        <input type="hidden" name="ID" value=@Model.phones[i].IDPhone>
+        <input id="Submit2" type="submit" class="btn btn-primary" value="удалить" />
+    </form>
+   <br />
 }
 <a asp-area="" asp-controller="Order" style="color:white" asp-action="MakeOrder">
-    <input id="Submit1"  type="submit" class="btn btn-success" value="Оформить заказ" />
+    <input id="Submit1" type="submit" class="btn btn-success" value="Оформить заказ" />
 </a>
 
 

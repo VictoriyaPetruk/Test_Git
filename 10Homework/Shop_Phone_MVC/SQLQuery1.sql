@@ -1,1 +1,0 @@
-﻿SELECT p.ID_P,p.MODEL,p.MARKA,p.CAMERA,p.MEMORY,p.battery,p.PRICE,p.DESCRIPTIONPHONE,p.COUNT_PHONE FROM PHONE p  join basket_phone pb on p.ID_P=pb.ID_P join basket b on pb.ID_B=b.ID_B join customer c  on c.ID_C=b.ID_C where c.LOGIN='maria1234'

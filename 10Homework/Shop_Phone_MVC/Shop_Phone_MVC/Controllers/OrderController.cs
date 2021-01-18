@@ -11,6 +11,7 @@ using Shop_Phone_MVC.Models;
 namespace Shop_Phone_MVC.Controllers
 {
     [CustomerExeptionFilter]
+    //для отображения страницы оформления заказа и страницы подтверждения заказа
     public class OrderController : Controller
     {
         private readonly IServicesDB db;

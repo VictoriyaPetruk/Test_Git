@@ -1,24 +1,22 @@
 ﻿
+
 using LibrarySetOfClases;
+using LibraryServicesWorkWithDB;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
-using LibraryServicesWorkWithDB;
-
 namespace LibraryWorkWithADONET
 {
     public class ClassADONET:IServicesDB
     {   public SqlConnection Connection { get; set; }
-        private const string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PHONESTORE;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public ClassADONET()
         {
             Connection = GetConncection();
         }
-        //запустить 
         public SqlConnection GetConncection()
         {
-            string connectionstring = connectionString;
+            string connectionstring = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PHONESTORE;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             var connection = new SqlConnection(connectionstring);
             connection.Open();
             return connection;
