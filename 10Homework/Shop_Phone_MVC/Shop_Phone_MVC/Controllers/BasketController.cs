@@ -23,7 +23,7 @@ namespace Shop_Phone_MVC.Controllers
         {
             LoadPhone();
             if (model.phones.Count==0)
-            { ViewBag.Message = "У вас не товаров"; }
+            { ViewBag.Message = "У вас нет товаров"; }
             return View(model);
         }
        
