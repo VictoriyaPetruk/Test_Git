@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LibraryServicesWorkWithDB;
-using LibraryWorkWithADONET;
+using DBInterfaces;
+using ADONETServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,7 +36,10 @@ namespace Shop_Phone_MVC
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSingleton<IServicesDB, ClassADONET>();
+            services.AddSingleton<IServiceDBBasket, BasketOperations>();
+            services.AddSingleton<IServiceDBOrder, OrderOperations>();
+            services.AddSingleton<IServiceDBPhone, PhoneOperations>();
+            services.AddSingleton<IServiceDBCustomer, CustomerOperations>();
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => //CookieAuthenticationOptions

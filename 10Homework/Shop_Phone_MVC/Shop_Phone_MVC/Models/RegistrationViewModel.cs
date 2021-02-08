@@ -1,11 +1,12 @@
 ﻿using LibrarySetOfClases;
-using LibraryWorkWithADONET;
+using DBInterfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using ADONETServices;
 
 namespace Shop_Phone_MVC.Models
 {
@@ -53,9 +54,8 @@ namespace Shop_Phone_MVC.Models
         {
             try
             {
-                ClassADONET ado = new ClassADONET();
-                SqlConnection conn = ado.GetConncection();
-                ClassCustomer customer = new ClassCustomer();
+                CustomerOperations ado = new CustomerOperations();
+                Customer customer = new Customer();
                 customer.City = city;
                 customer.Country = country;
                 customer.Email = email;
@@ -65,7 +65,7 @@ namespace Shop_Phone_MVC.Models
                 customer.Password = password;
                 customer.Login = login;
                 customer.IDcustomer = 1;
-                ado.InsertCustomer(conn, customer).Wait();
+                ado.InsertCustomer(customer).Wait();
                 Message = "Вы зарегестрировались";
             }
             catch (Exception ex)

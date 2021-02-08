@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using LibraryServicesWorkWithDB;
+using DBInterfaces;
 using LibrarySetOfClases;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,31 +16,34 @@ namespace Shop_Phone_MVC.Controllers
     //для отображения главной страницы покупки телефонов
     public class PhoneController : Controller
     {
-        private readonly IServicesDB db;
-        public List<ClassPhone> phones = new List<ClassPhone>();
-        public List<ClassPhone> basket_phone = new List<ClassPhone>();
-        List<ClassCustomer> customers = new List<ClassCustomer>();
-        List<ClassBasket> users_basket = new List<ClassBasket>();
-        PhonesViewModel phoneViewModel = new PhonesViewModel();
-        List<PhoneViewModel> phoneViews = new List<PhoneViewModel>();
-        public PhoneController(IServicesDB ado_)
+        private readonly IServiceDBPhone dbP;
+        private readonly IServiceDBBasket dbB;
+        private readonly IServiceDBCustomer dbC;
+        private List<ClassPhone> phones = new List<ClassPhone>();
+        private List<ClassPhone> basket_phone = new List<ClassPhone>();
+        private List<Customer> customers = new List<Customer>();
+        private List<Basket> users_basket = new List<Basket>();
+        private PhonesViewModel phoneViewModel = new PhonesViewModel();
+        private List<PhoneViewModel> phoneViews = new List<PhoneViewModel>();
+        public PhoneController(IServiceDBPhone dbP, IServiceDBBasket dbB, IServiceDBCustomer dbC)
         {
-
-            db = ado_;
+            this.dbP = dbP;
+            this.dbC = dbC;
+            this.dbB = dbB;
             //проверка отображения error-страницы
             // throw new Exception();
         }
         [HttpGet]
         public IActionResult Phone()
         {
-            Load_Data();
+            phoneViews=Load_Data();
             phoneViewModel = new PhonesViewModel { NameUser = User.Identity.Name, Message = "Hello", phonesview = phoneViews };
             return View(phoneViewModel);
         }
-        public void Load_Data()
+        public List<PhoneViewModel> Load_Data()
         {
-            
-            phones = db.SelectPhone(db.Connection).Result;
+            List<PhoneViewModel> phoneViews = new List<PhoneViewModel>();
+            phones = dbP.SelectPhone().Result;
             foreach(ClassPhone cl in phones)
             {
                 PhoneViewModel p = new PhoneViewModel();
@@ -56,12 +59,13 @@ namespace Shop_Phone_MVC.Controllers
                 p.Battery = p.Battery;
                 phoneViews.Add(p);
             }
+            return phoneViews; 
         }
        
         [HttpPost]
         public IActionResult Phone(int id)
         {
-            Load_Data();
+            phoneViews=Load_Data();
             if (User.Identity.Name ==null)
             {
                 phoneViewModel.Message = "You need to registration";
@@ -82,28 +86,27 @@ namespace Shop_Phone_MVC.Controllers
                 }
                 return View(phoneViewModel);
             }
-           
             
         }
         
         public void AddProductToBasket(int id_phone)
         {
             bool f = true;
-            customers= db.SelectCustomer(db.Connection).Result;
-            users_basket = db.SelectUsersBasket(db.Connection).Result;
-            foreach (ClassCustomer cl in customers)
+            customers= dbC.SelectCustomer().Result;
+            users_basket = dbB.SelectUsersBasket().Result;
+            foreach (Customer cl in customers)
             {if(cl.Login.Trim()==User.Identity.Name)
-                { foreach(ClassBasket b in users_basket)
+                { foreach(Basket b in users_basket)
                     {
                         if(b.Login_U.Trim()==User.Identity.Name)
                         {
-                            db.InsertInBasketPhone(db.Connection, cl.IDcustomer, id_phone).Wait();f = false; break;
+                            dbB.InsertInBasketPhone( cl.IDcustomer, id_phone).Wait();f = false; break;
                         }
                     }
                     if (f == true)
                     {
-                        db.InsertInBasketID(db.Connection, cl.IDcustomer).Wait();
-                        db.InsertInBasketPhone(db.Connection, cl.IDcustomer, id_phone).Wait(); break;
+                        dbB.InsertInBasketID(cl.IDcustomer).Wait();
+                        dbB.InsertInBasketPhone( cl.IDcustomer, id_phone).Wait(); break;
                     }
                 }
             }

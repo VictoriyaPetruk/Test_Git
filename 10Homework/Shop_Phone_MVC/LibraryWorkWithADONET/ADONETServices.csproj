@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LibraryServicesWorkWithDB\LibraryServicesWorkWithDB.csproj" />
-    <ProjectReference Include="..\LibrarySetOfClases\LibrarySetOfClases.csproj" />
+    <ProjectReference Include="..\LibraryServicesWorkWithDB\DBInterfaces.csproj" />
+    <ProjectReference Include="..\LibrarySetOfClases\SetOfClases.csproj" />
   </ItemGroup>
 
   <ItemGroup>

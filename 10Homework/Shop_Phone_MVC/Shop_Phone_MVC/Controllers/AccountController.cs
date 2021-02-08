@@ -4,9 +4,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using LibraryServicesWorkWithDB;
+using DBInterfaces;
 using LibrarySetOfClases;
-using LibraryWorkWithADONET;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -19,12 +18,14 @@ namespace Shop_Phone_MVC.Controllers
     [CustomerExeptionFilter]
     public class AccountController : Controller
     { 
-        private readonly IServicesDB db;
-        RegistrationViewModel model = new RegistrationViewModel();
-        List<ClassCustomer> customers = new List<ClassCustomer>();
-        public  AccountController(IServicesDB ado_)
+        private readonly IServiceDBCustomer dbC;
+        private  RegistrationViewModel model;
+        private List<Customer> customers;
+        public  AccountController(IServiceDBCustomer ado_)
         {
-            db = ado_;
+            dbC = ado_;
+            model = new RegistrationViewModel();
+            customers= new List<Customer>();
         }
         [HttpGet]
         public IActionResult Registration()
@@ -39,10 +40,9 @@ namespace Shop_Phone_MVC.Controllers
             if (ModelState.IsValid)
             {
                 model.Message = "You are registrate";
-                ClassCustomer customer = new ClassCustomer { Name = model.Name, Lname = model.Lname, Email = model.Email, Number = model.Number, Country = model.Country, Login = model.Login, Password = model.Password,City=model.City };
+                Customer customer = new Customer { Name = model.Name, Lname = model.Lname, Email = model.Email, Number = model.Number, Country = model.Country, Login = model.Login, Password = model.Password,City=model.City };
                 
-                SqlConnection conn = db.Connection;
-                db.InsertCustomer(conn, customer).Wait();
+                dbC.InsertCustomer( customer).Wait();
                 await Authenticate(model.Login);
                 return RedirectToAction("Entrance", "Account");
                
@@ -57,10 +57,10 @@ namespace Shop_Phone_MVC.Controllers
             if (ModelState.IsValid)
             { //получить всех пользователей
               //сравнить
-                customers =await db.SelectCustomer(db.Connection);
-                foreach(ClassCustomer cl in customers)
+                customers =await dbC.SelectCustomer();
+                foreach(Customer cl in customers)
                 {
-                    if(cl.Login.Trim()==loginmodel.Login&&cl.Password.Trim() == loginmodel.Password)
+                    if(cl.Login==loginmodel.Login&&cl.Password == loginmodel.Password)
                     {
                         f = false;
                         await Authenticate(loginmodel.Login);

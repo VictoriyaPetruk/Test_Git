@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop_Phone_MVC", "Shop_Phone_MVC\Shop_Phone_MVC.csproj", "{9E80C992-4FD6-4A3D-9B37-343A3055C4CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryServicesWorkWithDB", "LibraryServicesWorkWithDB\LibraryServicesWorkWithDB.csproj", "{C28462E8-CD7A-46D2-AEA7-5DDA2576B932}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBInterfaces", "LibraryServicesWorkWithDB\DBInterfaces.csproj", "{C28462E8-CD7A-46D2-AEA7-5DDA2576B932}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibrarySetOfClases", "LibrarySetOfClases\LibrarySetOfClases.csproj", "{8EA23056-C94D-4AD6-9D05-3DE64B493427}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SetOfClases", "LibrarySetOfClases\SetOfClases.csproj", "{8EA23056-C94D-4AD6-9D05-3DE64B493427}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryWorkWithADONET", "LibraryWorkWithADONET\LibraryWorkWithADONET.csproj", "{B33343ED-AE7F-40CF-9D21-37AB145D5F62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADONETServices", "LibraryWorkWithADONET\ADONETServices.csproj", "{B33343ED-AE7F-40CF-9D21-37AB145D5F62}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject", "UnitTestProject1\TestProject.csproj", "{76885ECE-086E-48DF-94FB-9DC6A83FBA10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B33343ED-AE7F-40CF-9D21-37AB145D5F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B33343ED-AE7F-40CF-9D21-37AB145D5F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B33343ED-AE7F-40CF-9D21-37AB145D5F62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76885ECE-086E-48DF-94FB-9DC6A83FBA10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76885ECE-086E-48DF-94FB-9DC6A83FBA10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76885ECE-086E-48DF-94FB-9DC6A83FBA10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76885ECE-086E-48DF-94FB-9DC6A83FBA10}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

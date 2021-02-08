@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LibraryServicesWorkWithDB;
+using DBInterfaces;
 using LibrarySetOfClases;
 using Microsoft.AspNetCore.Mvc;
 using Shop_Phone_MVC.Filters;
@@ -14,34 +14,54 @@ namespace Shop_Phone_MVC.Controllers
     //для отображения страницы оформления заказа и страницы подтверждения заказа
     public class OrderController : Controller
     {
-        private readonly IServicesDB db;
-        List<ClassPhone> phones = new List<ClassPhone>();
+        private readonly IServiceDBOrder dbO;
+        private readonly IServiceDBBasket dbB;
+        private readonly IServiceDBCustomer dbC;
+        List<ClassPhone> phones=new List<ClassPhone>();
         MakeOrderViewModel modelOrder = new MakeOrderViewModel();
-        List<ClassCustomer> customers = new List<ClassCustomer>();
+        List<Customer> customers = new List<Customer>();
         ConfirmationViewModel model_confrim = new ConfirmationViewModel();
-        public OrderController(IServicesDB ado_)
+        public OrderController(IServiceDBOrder dbO, IServiceDBBasket dbB, IServiceDBCustomer dbC)
         {
-            db = ado_;
+            this.dbO = dbO;
+            this.dbB = dbB;
+            this.dbC = dbC;
+           
         }
-        [HttpGet]
+        //public OrderController(IServiceDBOrder dbO, List<ClassPhone> phones, IServiceDBBasket dbB, IServiceDBCustomer dbC)
+        //{
+        //    this.phones = phones;
+        //    this.dbO = dbO;
+        //    this.dbB = dbB;
+        //    this.dbC = dbC;
+        //}
+
+       [HttpGet]
         public IActionResult MakeOrder()
         {
-            LoadData();
+            modelOrder=LoadData();
             return View(modelOrder);
         }
-        public void LoadData()
+
+       virtual public MakeOrderViewModel LoadData()
         {
-            double Sum = 0;
-            phones = db.SelectPhoneByCustomer(db.Connection, User.Identity.Name).Result;
-            var fio = db.GetCustomer(db.Connection, User.Identity.Name).Result.ToList();
+            MakeOrderViewModel modelOrder = new MakeOrderViewModel();
+            phones = dbB.SelectPhoneByCustomer( User.Identity.Name).Result;
+            var fio = dbC.GetCustomer(User.Identity.Name).Result.ToList();
             modelOrder.Name = fio[0];
             modelOrder.Lname = fio[1];
             modelOrder.Count = phones.Count;
+            modelOrder.Sum = GetSum();
+            return modelOrder;
+        }
+        public double GetSum()
+        {
+            double Sum =0;
             foreach (ClassPhone p in phones)
             {
                 Sum = Sum + p.Price;
             }
-            modelOrder.Sum = Sum;
+            return Sum;
         }
         [HttpPost]
         public IActionResult MakeOrder(string city,string numver_dep)
@@ -50,12 +70,12 @@ namespace Shop_Phone_MVC.Controllers
             {
                 LoadData();
                 //внести заказ в две табл +удалить товары с корзины +уменьшить колличество
-                 db.InsertOrderId(db.Connection,User.Identity.Name,city+". " + numver_dep).Wait();
+                 dbO.InsertOrderId(User.Identity.Name,city+". " + numver_dep).Wait();
                 foreach (ClassPhone p in phones)
                 {
-                    db.InsertOrderPhone(db.Connection, User.Identity.Name,p.IDPhone).Wait();
-                    db.DeleteFromBasket(db.Connection, p.IDPhone, User.Identity.Name).Wait();//переделать ,нужно удалять и по юзеру
-                    db.ReduceCount(db.Connection, p.IDPhone,p.Count).Wait();
+                    dbO.InsertOrderPhone(User.Identity.Name,p.IDPhone).Wait();
+                    dbB.DeleteFromBasket( p.IDPhone, User.Identity.Name).Wait();//переделать ,нужно удалять и по юзеру
+                    dbO.ReduceCount( p.IDPhone,p.Count).Wait();
                 }
                 return RedirectToAction("Confirmation", "Order");
 
@@ -65,7 +85,7 @@ namespace Shop_Phone_MVC.Controllers
         [HttpGet]
         public IActionResult Confirmation()
         {
-            model_confrim.ID = db.GetNumberOrder(db.Connection, User.Identity.Name).Result;
+            model_confrim.ID = dbO.GetNumberOrder( User.Identity.Name).Result;
             return View(model_confrim);
         }
     }

@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LibraryServicesWorkWithDB\LibraryServicesWorkWithDB.csproj" />
-    <ProjectReference Include="..\LibrarySetOfClases\LibrarySetOfClases.csproj" />
-    <ProjectReference Include="..\LibraryWorkWithADONET\LibraryWorkWithADONET.csproj" />
+    <ProjectReference Include="..\LibraryServicesWorkWithDB\DBInterfaces.csproj" />
+    <ProjectReference Include="..\LibrarySetOfClases\SetOfClases.csproj" />
+    <ProjectReference Include="..\LibraryWorkWithADONET\ADONETServices.csproj" />
   </ItemGroup>
 
   <ItemGroup>

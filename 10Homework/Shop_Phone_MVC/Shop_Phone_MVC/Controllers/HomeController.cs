@@ -4,9 +4,10 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using LibraryServicesWorkWithDB;
+using DBInterfaces;
+
 using LibrarySetOfClases;
-using LibraryWorkWithADONET;
+
 using Microsoft.AspNetCore.Mvc;
 using Shop_Phone_MVC.Filters;
 using Shop_Phone_MVC.Models;
@@ -15,11 +16,11 @@ namespace Shop_Phone_MVC.Controllers
 {   [CustomerExeptionFilter]
     public class HomeController : Controller
     {
-        private readonly IServicesDB  db;
+        //private readonly IServicesDB  db;
      
-        public  HomeController(IServicesDB ado_)
+        public  HomeController()
         {
-            db = ado_;
+            //db = ado_;
            // throw new Exception();
         }
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LibraryServicesWorkWithDB;
+using DBInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using Shop_Phone_MVC.Filters;
 using Shop_Phone_MVC.Models;
@@ -13,11 +13,11 @@ namespace Shop_Phone_MVC.Controllers
     //для отображения страницы корзины
     public class BasketController : Controller
     {
-        private readonly IServicesDB db;
+        private readonly IServiceDBBasket dbB;
         BasketViewModel model = new BasketViewModel();
-        public BasketController(IServicesDB ado_)
+        public BasketController(IServiceDBBasket ado_)
         {
-            db = ado_;
+            dbB = ado_;
         }
         public IActionResult Basket()
         {
@@ -29,12 +29,12 @@ namespace Shop_Phone_MVC.Controllers
        
         public  void LoadPhone()
         {
-           model.phones= db.SelectPhoneByCustomer(db.Connection,User.Identity.Name).Result;
+           model.phones= dbB.SelectPhoneByCustomer(User.Identity.Name).Result;
         }
         [HttpPost]
         public IActionResult Basket(int id)
         {
-            db.DeleteFromBasket(db.Connection, id, User.Identity.Name).Wait();
+            dbB.DeleteFromBasket(id, User.Identity.Name).Wait();
             LoadPhone();
             return View(model);
         }

@@ -1,5 +1,5 @@
 ﻿using LibrarySetOfClases;
-using LibraryWorkWithADONET;
+using DBInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
